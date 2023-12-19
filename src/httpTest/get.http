@@ -1,0 +1,7 @@
+### 글 조회
+GET http://localhost:8080/api/articles
+Content-Type: application/json
+
+{
+
+}
