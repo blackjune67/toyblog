@@ -19,9 +19,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import toyblog.june.springbootdev.domain.Article;
 import toyblog.june.springbootdev.dto.AddArticleRequest;
+import toyblog.june.springbootdev.dto.UpdateArticleRequest;
 import toyblog.june.springbootdev.repository.BlogRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -109,9 +111,9 @@ class BlogApiControllerTest {
 
         Article saveArticle = blogRepository.save(
                 Article.builder()
-                .title(title)
-                .content(content)
-                .build());
+                        .title(title)
+                        .content(content)
+                        .build());
 
         // when
         final ResultActions resultActions = mockMvc.perform(get(url, saveArticle.getId()));
@@ -125,7 +127,7 @@ class BlogApiControllerTest {
 
     @Test
     @DisplayName("블로그 글 삭제 (단건)")
-    public void test04() throws Exception{
+    public void test04() throws Exception {
         final String url = "/api/articles/{id}";
         final String title = "title";
         final String content = "content";
@@ -142,5 +144,40 @@ class BlogApiControllerTest {
         // then
         List<Article> articles = blogRepository.findAll();
         assertThat(articles).isEmpty();
+    }
+
+    @Test
+    @DisplayName("블로그 글 수정")
+    public void test05() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+
+        Article saveArticle = blogRepository.save(
+                Article.builder()
+                        .title(title)
+                        .content(content)
+                        .build());
+
+        final String newTitle = """
+                안녕하세요 제 사연입니다.
+                """;
+        final String newContent = """
+                이 편지는 오래 전 대항해시대때부터 존재해왔던 글로써...
+                """;
+        UpdateArticleRequest updateArticleRequest = new UpdateArticleRequest(newTitle, newContent);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(put(url, saveArticle.getId())
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(updateArticleRequest)))
+                .andExpect(status().isOk());
+
+        // then
+        Article article = blogRepository.findById(saveArticle.getId()).orElseThrow(IllegalArgumentException::new);
+
+        assertThat(article.getTitle()).isEqualTo(newTitle);
+        assertThat(article.getContent()).isEqualTo(newContent);
     }
 }

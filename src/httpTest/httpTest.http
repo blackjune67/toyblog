@@ -7,6 +7,14 @@ Content-Type: application/json
   "content": "잘 되는지 테스트를 해보자고"
 }
 
+### 글 조회
+GET http://localhost:8080/api/articles
+Content-Type: application/json
+
+{
+
+}
+
 ### 글 삭제
 DELETE http://localhost:8080/api/articles/1
 Content-Type: application/json
@@ -16,3 +24,11 @@ Content-Type: application/json
 }
 
 
+### 글 수정
+PUT http://localhost:8080/api/articles/1
+Content-Type: application/json
+
+{
+  "title" : "아니다",
+  "content" : "희망이있다"
+}
