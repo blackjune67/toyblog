@@ -19,6 +19,7 @@ public class BlogApiController {
 
     private final BlogService blogService;
 
+    // * 글 쓰기
     @PostMapping("/api/articles")
     public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest2 request) {
 //        Article savedArticle = blogService.save(request);
@@ -28,6 +29,7 @@ public class BlogApiController {
                 .body(savedArticle);
     }
 
+    // * 글 목록 조회
     @GetMapping("/api/articles")
     public ResponseEntity<List<ArticleResponse>> findAllArticles() {
         List<ArticleResponse> findAllArticles = blogService.findAll()
@@ -39,18 +41,21 @@ public class BlogApiController {
                 .body(findAllArticles);
     }
 
+    // * 글 목록 조희 (단건)
     @GetMapping("/api/articles/{id}")
     public ResponseEntity<ArticleResponse> findByArticle(@PathVariable("id") long id) {
         Article findByArticle = blogService.findById(id);
         return ResponseEntity.ok().body(new ArticleResponse(findByArticle));
     }
 
+    // * 글 삭제
     @DeleteMapping("/api/articles/{id}")
     public ResponseEntity<Void> deleteArticle(@PathVariable("id") long id) {
         blogService.delete(id);
         return ResponseEntity.ok().build();
     }
 
+    // * 글 수정
     @PutMapping("/api/articles/{id}")
     public ResponseEntity<Article> updateArticle(@PathVariable("id") long id, @RequestBody UpdateArticleRequest request) {
         Article updateByArticle = blogService.update(id, request);
