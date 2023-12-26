@@ -21,3 +21,24 @@ spring:
   sql:
     init:
       mode: always
+
+  web:
+    resources:
+      static-locations:
+        - file:src/main/resources/static/
+        - file:src/main/resources/static/
+        - file:src/main/resources/
+        - file:src/main/public/
+      add-mappings: true
+
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    suffix: .html
+    cache: false
+
+#  mvc:
+#    static-path-pattern: /static/**
+
+logging:
+  level:
+    org.hibernate.SQL: debug

@@ -3,7 +3,6 @@ package toyblog.june.springbootdev.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import toyblog.june.springbootdev.domain.Article;
 
 @NoArgsConstructor

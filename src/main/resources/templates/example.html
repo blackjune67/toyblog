@@ -16,8 +16,7 @@
     <p>취미</p>
     <ul th:each="hobby : *{hobbies}">
         <li th:text="${hobby}"></li>
-
-        <span th:if="${hobby == '운동'}">(대표취미)</span>
+        <span th:if="${hobby == '헬스'}">(대표취미)</span>
     </ul>
 </div>
 <a th:href="@{/api/articles/{id}(id=${person.id})}">글보기</a>

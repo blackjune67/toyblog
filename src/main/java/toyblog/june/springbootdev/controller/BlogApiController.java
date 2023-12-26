@@ -5,10 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import toyblog.june.springbootdev.domain.Article;
-import toyblog.june.springbootdev.dto.AddArticleRequest;
-import toyblog.june.springbootdev.dto.AddArticleRequest2;
-import toyblog.june.springbootdev.dto.ArticleResponse;
-import toyblog.june.springbootdev.dto.UpdateArticleRequest;
+import toyblog.june.springbootdev.dto.record.AddArticleRequest2;
+import toyblog.june.springbootdev.dto.record.ArticleResponse;
+import toyblog.june.springbootdev.dto.record.UpdateArticleRequest;
 import toyblog.june.springbootdev.service.BlogService;
 
 import java.util.List;
