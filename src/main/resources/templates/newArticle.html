@@ -20,9 +20,8 @@
         <input type="hidden" id="article-id" th:value="${article.id}">
 
         <header class="mb-4">
-          <h1 class="fw-bolder mb-1" th:text="${article.title}"></h1>
-          <!--<div class="text-muted fst-italic mb-2"
-               th:text="|Posted on ${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}|"></div>-->
+          <label for="title">제목</label>
+          <input type="text" id="title" class="form-control" placeholder="제목" th:value="${article.title}"/>
         </header>
         <section class="mb-5">
           <label for="content">내용</label>

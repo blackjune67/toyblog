@@ -16,9 +16,9 @@ if (deleteButton) {
 const modifyBtn = document.getElementById('modify-btn');
 if (modifyBtn) {
   modifyBtn.addEventListener('click', event => {
-    console.log('==> 수정 클릭2');
     let params = new URLSearchParams(location.search);
     let id = params.get('id');
+    let title = document.getElementById('title').value;
     let content = document.getElementById('content').value;
 
     fetch(`/api/articles/${id}`, {
@@ -27,8 +27,9 @@ if (modifyBtn) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        title: title,
         content: content
-      })
+      }),
     }).then(() => {
       alert('수정이 완료됐습니다.');
       location.replace(`/articles/${id}`);
