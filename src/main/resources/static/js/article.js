@@ -36,3 +36,25 @@ if (modifyBtn) {
     });
   });
 }
+
+const createBtn = document.getElementById('create-btn');
+if (createBtn) {
+  createBtn.addEventListener('click', event => {
+    let title = document.getElementById('title').value;
+    let content = document.getElementById('content').value;
+
+    fetch(`/api/articles`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: title,
+        content: content
+      }),
+    }).then(() => {
+      alert('등록이 완료됐습니다.');
+      location.replace(`/articles`);
+    });
+  });
+}
