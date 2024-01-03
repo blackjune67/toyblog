@@ -1,4 +1,4 @@
-package toyblog.june.springbootdev.controller;
+package toyblog.june.springbootdev.controller.view;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package toyblog.june.springbootdev.controller;
+package toyblog.june.springbootdev.controller.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
