@@ -28,7 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'io.jsonwebtoken:jjwt'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
 	compileOnly 'org.projectlombok:lombok'
