@@ -42,3 +42,7 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
+jwt:
+  issuer: buea@gmail.com
+  secret_key: Whatthefuckdoesitmeanthatyoucantgetajob

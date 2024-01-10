@@ -62,10 +62,14 @@ public class TokenProvider {
         SecretKey secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
 
         try {
-            Jwts.parser()
+            /*Jwts.parser()
                     .decryptWith(secretKey)
                     .build()
-                    .parseEncryptedClaims(token);
+                    .parseEncryptedClaims(token);*/
+            Jwts.parser()
+                    .setSigningKey(jwtProperties.getSecretKey())
+                    .build()
+                    .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
