@@ -14,7 +14,7 @@ public class RefreshToken {
     private Long id;
     @Column(name = "user_id", nullable = false, unique = true)
     private Long userId;
-    @Column(name = "refresh_token", nullable = false)
+    @Column(name = "refresh_token", nullable = false, length = 2048)
     private String refreshToken; // * 토큰값
 
     public RefreshToken(Long userId, String refreshToken) {

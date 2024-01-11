@@ -45,5 +45,5 @@ logging:
 
 jwt:
   issuer: buea@gmail.com
-#  secret_key: Whatthefuckdoesitmeanthatyoucantgetajob
-  secret_key: testSecretKey20230327testSecretKey20230327testSecretKey20230327
+  secret_key: juneAccessToken
+#  secret_key: testSecretKey20230327testSecretKey20230327testSecretKey20230327
