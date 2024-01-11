@@ -1,17 +1,15 @@
 package toyblog.june.springbootdev.config.jwt;
 
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Getter
 public class JwtFactory {
@@ -34,14 +32,15 @@ public class JwtFactory {
     }
 
     public String createToken(JwtProperties jwtProperties) {
-        SecretKey secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
+//        SecretKey secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
         return Jwts.builder()
-                .subject(subject)
-                .issuer(jwtProperties.getIssuer())
-                .issuedAt(issuedAt)
-                .expiration(expiration)
-                .claims(claims)
-                .signWith(secretKey)
+                .setSubject(subject)
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setIssuer(jwtProperties.getIssuer())
+                .setIssuedAt(issuedAt)
+                .setExpiration(expiration)
+                .addClaims(claims)
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
     }
 }

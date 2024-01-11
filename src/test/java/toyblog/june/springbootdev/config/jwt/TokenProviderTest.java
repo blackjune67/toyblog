@@ -1,8 +1,6 @@
 package toyblog.june.springbootdev.config.jwt;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import toyblog.june.springbootdev.domain.User;
 import toyblog.june.springbootdev.repository.UserRepository;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class TokenProviderTest {
@@ -39,13 +35,18 @@ public class TokenProviderTest {
                 .build());
 
         String token = tokenProvider.generateToken(testUser, Duration.ofDays(14));
-        SecretKey secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
+//        SecretKey secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8));
 
-        Long userId = Jwts.parser()
+        /*Long userId = Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
+                .get("id", Long.class);*/
+        Long userId = Jwts.parser()
+                .setSigningKey(jwtProperties.getSecretKey())
+                .parseClaimsJws(token)
+                .getBody()
                 .get("id", Long.class);
 
         assertThat(userId).isEqualTo(testUser.getId());
