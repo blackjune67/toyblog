@@ -11,15 +11,14 @@ import toyblog.june.springbootdev.repository.UserRepository;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Long save(AddUserRequest addUserRequest) {
-        BCryptPasswordEncoder bCryptPasswordEncoder1 = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         return userRepository.save(User.builder()
                         .email(addUserRequest.getEmail())
                         .password(bCryptPasswordEncoder.encode(addUserRequest.getPassword()))
-//                        .password(bCryptPasswordEncoder.encode(addUserRequest.getPassword()))
                         .build())
                 .getId();
     }
