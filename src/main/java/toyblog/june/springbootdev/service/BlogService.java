@@ -23,8 +23,8 @@ public class BlogService {
     }
 
     // * record 사용
-    public Article save2(AddArticleRequest2 request) {
-        return blogRepository.save(request.toEntity());
+    public Article save2(AddArticleRequest2 request, String userName) {
+        return blogRepository.save(request.toEntity(userName));
     }
 
     public List<Article> findAll() {

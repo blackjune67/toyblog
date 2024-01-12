@@ -10,6 +10,7 @@ import toyblog.june.springbootdev.dto.record.ArticleResponse;
 import toyblog.june.springbootdev.dto.record.UpdateArticleRequest;
 import toyblog.june.springbootdev.service.BlogService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,9 +21,9 @@ public class BlogApiController {
 
     // * 글 쓰기
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest2 request) {
+    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest2 request, Principal principal) {
 //        Article savedArticle = blogService.save(request);
-        Article savedArticle = blogService.save2(request); // * record 사용
+        Article savedArticle = blogService.save2(request, principal.getName()); // * record 사용
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(savedArticle);
