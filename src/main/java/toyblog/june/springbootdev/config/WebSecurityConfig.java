@@ -1,6 +1,7 @@
 package toyblog.june.springbootdev.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import toyblog.june.springbootdev.config.jwt.TokenProvider;
-import toyblog.june.springbootdev.config.oauth.OAuth2AuthorizationRequestBseOnCookieRepository;
+import toyblog.june.springbootdev.config.oauth.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import toyblog.june.springbootdev.config.oauth.OAuth2SuccessHandler;
 import toyblog.june.springbootdev.config.oauth.OAuth2UserCustomService;
 import toyblog.june.springbootdev.repository.RefreshTokenRepository;
@@ -26,6 +27,7 @@ import toyblog.june.springbootdev.service.UserService;
 
 @RequiredArgsConstructor
 @Configuration
+@Slf4j
 public class WebSecurityConfig {
     private final OAuth2UserCustomService oAuth2UserCustomService;
     private final TokenProvider tokenProvider;
@@ -39,6 +41,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/img/**", "/css/**", "/js/**");
     }
 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
@@ -54,7 +57,7 @@ public class WebSecurityConfig {
                         .anyRequest().permitAll());
 
         http.oauth2Login(oauth2Login ->
-                oauth2Login.loginPage("/page")
+                oauth2Login.loginPage("/login")
                         .authorizationEndpoint(authorizationEndpoint ->
                                 authorizationEndpoint.authorizationRequestRepository(oAuth2AuthorizationRequestBseOnCookieRepository()))
                         .successHandler(oAuth2SuccessHandler())
@@ -85,8 +88,8 @@ public class WebSecurityConfig {
 
     // * 쿠키에 저장할 인증 요청 및 상태 저장소
     @Bean
-    public OAuth2AuthorizationRequestBseOnCookieRepository oAuth2AuthorizationRequestBseOnCookieRepository() {
-        return new OAuth2AuthorizationRequestBseOnCookieRepository();
+    public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBseOnCookieRepository() {
+        return new OAuth2AuthorizationRequestBasedOnCookieRepository();
     }
 
     @Bean
