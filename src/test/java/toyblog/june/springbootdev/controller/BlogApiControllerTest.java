@@ -4,19 +4,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import toyblog.june.springbootdev.domain.Article;
+import toyblog.june.springbootdev.domain.User;
 import toyblog.june.springbootdev.dto.AddArticleRequest;
 import toyblog.june.springbootdev.dto.record.UpdateArticleRequest;
 import toyblog.june.springbootdev.repository.BlogRepository;
+import toyblog.june.springbootdev.repository.UserRepository;
 
+import java.security.Principal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -36,6 +43,9 @@ class BlogApiControllerTest {
     private WebApplicationContext webApplicationContext;
     @Autowired
     BlogRepository blogRepository;
+    @Autowired
+    UserRepository userRepository;
+    User user;
 
 
     @BeforeEach
@@ -46,6 +56,18 @@ class BlogApiControllerTest {
         blogRepository.deleteAll();
     }
 
+    @BeforeEach
+    void setSecurityContext() {
+        userRepository.deleteAll();
+        user = userRepository.save(User.builder()
+                .email("user@gmail.com")
+                .password("a1234")
+                .build());
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
+    }
+
     @DisplayName("블로그 글 추가에 성공")
     @Test
     public void test01() throws Exception {
@@ -53,13 +75,18 @@ class BlogApiControllerTest {
         final String url = "/api/articles";
         final String title = "title";
         final String content = "content";
-        final AddArticleRequest userRequest = new AddArticleRequest(title, content);
+        final String author = "author";
+        final AddArticleRequest userRequest = new AddArticleRequest(title, content, author);
         final String reqBody = objectMapper.writeValueAsString(userRequest);
+
+        Principal principal = Mockito.mock(Principal.class);
+        Mockito.when(principal.getName()).thenReturn("username");
 
         // when
         ResultActions result = mockMvc
                 .perform(post(url)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .principal(principal)
                         .content(reqBody));
 
         // then
