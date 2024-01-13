@@ -19,8 +19,8 @@ public class BlogService {
     private final BlogRepository blogRepository;
 
     // * class 사용
-    public Article save(AddArticleRequest request) {
-        return blogRepository.save(request.toEntity());
+    public Article save(AddArticleRequest request, String userName) {
+        return blogRepository.save(request.toEntity(userName));
     }
 
     // * record 사용
