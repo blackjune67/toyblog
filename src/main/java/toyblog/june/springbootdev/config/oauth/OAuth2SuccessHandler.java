@@ -1,13 +1,13 @@
 package toyblog.june.springbootdev.config.oauth;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import toyblog.june.springbootdev.config.jwt.TokenProvider;
 import toyblog.june.springbootdev.domain.RefreshToken;
@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.time.Duration;
 
 @RequiredArgsConstructor
+@Component
+@Slf4j
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     public static final String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
     public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
@@ -28,12 +30,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final OAuth2AuthorizationRequestBseOnCookieRepository oAuth2AuthorizationRequestBseOnCookieRepository;
+    private final OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository;
     private final UserService userService;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-        super.onAuthenticationSuccess(request, response, chain, authentication);
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         User user = userService.findByEmail((String) oAuth2User.getAttributes().get("email"));
 
@@ -52,13 +53,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // * 엑세스 토큰 생성 후 패스에 엑세스 토큰 추가
         String accessToken = tokenProvider.generateToken(user, ACCESS_TOKEN_DURATION);
+        log.info("==> accessToken : " + accessToken);
 
         // * 엑세스 토큰 패스 추가
         String targetUrl = getTargetUrl(accessToken);
+        log.info("==> accessToken : " + targetUrl);
 
         // * 인증관련 설정값 및 쿠키 제거
         clearAuthenticationAttributes(request);
-        oAuth2AuthorizationRequestBseOnCookieRepository.removeAuthorizationRequestCookies(request, response);
+        oAuth2AuthorizationRequestBasedOnCookieRepository.removeAuthorizationRequestCookies(request, response);
 
         // * 리다이렉트
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
