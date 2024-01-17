@@ -22,10 +22,10 @@ public class BlogApiController {
 
     // * 글 쓰기
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request, Principal principal) {
+    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest2 request, Principal principal) {
 //        Article savedArticle = blogService.save(request);
-//        Article savedArticle = blogService.save2(request, principal.getName()); // * record 사용
-        Article savedArticle = blogService.save(request, principal.getName()); // * class 사용
+        Article savedArticle = blogService.save2(request, principal.getName()); // * record 사용
+//        Article savedArticle = blogService.save(request, principal.getName()); // * class 사용
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(savedArticle);
