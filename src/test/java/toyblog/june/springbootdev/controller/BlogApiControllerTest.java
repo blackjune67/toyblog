@@ -97,6 +97,7 @@ class BlogApiControllerTest {
         assertThat(articles.size()).isEqualTo(1);
         assertThat(articles.get(0).getTitle()).isEqualTo(title);
         assertThat(articles.get(0).getContent()).isEqualTo(content);
+        assertThat(articles.get(0).getCreatedAt()).isNotNull();
     }
 
     @Test
