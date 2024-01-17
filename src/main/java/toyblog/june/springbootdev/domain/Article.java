@@ -1,16 +1,20 @@
 package toyblog.june.springbootdev.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class) // * 날짜 자동으로 안들어가질 때 추가
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
