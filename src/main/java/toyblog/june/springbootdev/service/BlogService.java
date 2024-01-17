@@ -1,20 +1,22 @@
 package toyblog.june.springbootdev.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyblog.june.springbootdev.domain.Article;
 import toyblog.june.springbootdev.dto.AddArticleRequest;
+import toyblog.june.springbootdev.dto.UpdateArticleRequest2;
 import toyblog.june.springbootdev.dto.record.AddArticleRequest2;
 import toyblog.june.springbootdev.dto.record.UpdateArticleRequest;
-import toyblog.june.springbootdev.dto.UpdateArticleRequest2;
 import toyblog.june.springbootdev.repository.BlogRepository;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BlogService {
     private final BlogRepository blogRepository;
 
@@ -69,6 +71,8 @@ public class BlogService {
 
     private static void authorizeArticleAuthor(Article article) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("article userName = " + article.getAuthor());
+        log.info("userName = " + userName);
         if (!article.getAuthor().equals(userName)) {
             throw new IllegalArgumentException("not authorized");
         }
