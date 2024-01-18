@@ -68,6 +68,15 @@ class BlogApiControllerTest {
         context.setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
     }
 
+    private Article createDefultArticle() {
+        return blogRepository.save(Article
+                .builder()
+                .title("제목")
+                .author(user.getUsername())
+                .content("내용")
+                .build());
+    }
+
     @DisplayName("블로그 글 추가에 성공")
     @Test
     public void test01() throws Exception {
@@ -105,62 +114,49 @@ class BlogApiControllerTest {
     public void test02() throws Exception {
         // given
         final String url = "/api/articles";
-        final String title = "title";
-        final String content = "content";
+        /*final String title = "title";
+        final String content = "content";*/
+        Article savedArticle = createDefultArticle();
 
-        blogRepository.save(Article
+        /*blogRepository.save(Article
                 .builder()
                 .title(title)
                 .content(content)
-                .build());
+                .build());*/
         // when
         final ResultActions resultActions = mockMvc.perform(get(url).accept(APPLICATION_JSON));
 
         // then
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title").value(title))
-                .andExpect(jsonPath("$[0].content").value(content));
+                .andExpect(jsonPath("$[0].title").value(savedArticle.getTitle()))
+                .andExpect(jsonPath("$[0].content").value(savedArticle.getContent()));
     }
 
     @Test
-    @DisplayName("블로그 글 조회 성공")
+    @DisplayName("블로그 글 조회 성공, 단건")
     public void test03() throws Exception {
         // given
         final String url = "/api/articles/{id}";
-        final String title = "title";
-        final String content = "content";
-
-        Article saveArticle = blogRepository.save(
-                Article.builder()
-                        .title(title)
-                        .content(content)
-                        .build());
-
+        Article savedArticle = createDefultArticle();
         // when
-        final ResultActions resultActions = mockMvc.perform(get(url, saveArticle.getId()));
+        final ResultActions resultActions = mockMvc.perform(get(url, savedArticle.getId()));
 
         // then
         resultActions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value(title))
-                .andExpect(jsonPath("$.content").value(content));
+                .andExpect(jsonPath("$.title").value(savedArticle.getTitle()))
+                .andExpect(jsonPath("$.content").value(savedArticle.getContent()));
     }
 
     @Test
     @DisplayName("블로그 글 삭제 (단건)")
     public void test04() throws Exception {
         final String url = "/api/articles/{id}";
-        final String title = "title";
-        final String content = "content";
-
-        Article saveArticle = blogRepository.save(
-                Article.builder()
-                        .title(title)
-                        .content(content)
-                        .build());
+        Article savedArticle = createDefultArticle();
 
         // when
-        mockMvc.perform(delete(url, saveArticle.getId())).andExpect(status().isOk());
+        mockMvc.perform(delete(url, savedArticle.getId()))
+                .andExpect(status().isOk());
 
         // then
         List<Article> articles = blogRepository.findAll();
@@ -172,14 +168,8 @@ class BlogApiControllerTest {
     public void test05() throws Exception {
         // given
         final String url = "/api/articles/{id}";
-        final String title = "title";
-        final String content = "content";
+        Article savedArticle = createDefultArticle();
 
-        Article saveArticle = blogRepository.save(
-                Article.builder()
-                        .title(title)
-                        .content(content)
-                        .build());
 
         final String newTitle = """
                 안녕하세요 제 사연입니다.
@@ -190,13 +180,13 @@ class BlogApiControllerTest {
         UpdateArticleRequest updateArticleRequest = new UpdateArticleRequest(newTitle, newContent);
 
         // when
-        ResultActions resultActions = mockMvc.perform(put(url, saveArticle.getId())
+        ResultActions resultActions = mockMvc.perform(put(url, savedArticle.getId())
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(updateArticleRequest)))
                 .andExpect(status().isOk());
 
         // then
-        Article article = blogRepository.findById(saveArticle.getId()).orElseThrow(IllegalArgumentException::new);
+        Article article = blogRepository.findById(savedArticle.getId()).orElseThrow(IllegalArgumentException::new);
 
         assertThat(article.getTitle()).isEqualTo(newTitle);
         assertThat(article.getContent()).isEqualTo(newContent);
