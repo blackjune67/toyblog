@@ -1,6 +1,5 @@
 import React from 'react';
 import Notification from "./Notification";
-// import notification from "./Notification";
 
 const reservedNotifications = [
   {
@@ -30,6 +29,7 @@ class NotificationList extends React.Component {
 
   componentDidMount() {
     const {notifications} = this.state;
+    console.log('==> instanceOf', notifications instanceof Object);
 
     timer = setInterval(() => {
       if (notifications.length < reservedNotifications.length) {
@@ -39,10 +39,13 @@ class NotificationList extends React.Component {
           notifications: notifications,
         });
       } else {
+        this.setState({
+          notifications: [],
+        });
         clearInterval(timer);
       }
 
-    }, 1000);
+    }, 3000);
   }
 
   componentWillUnmount() {

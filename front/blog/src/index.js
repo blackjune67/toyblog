@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import NotificationList from "./chapter06/NotificationList";
+import {Accommodate} from "./chapter07/Accommodate";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
       {/*<CommentList />*/}
-      <NotificationList />
+      {/*<NotificationList />*/}
+      {/*  <Calculator />*/}
+      <Accommodate />
     </React.StrictMode>
 );
 /*setInterval(() => {

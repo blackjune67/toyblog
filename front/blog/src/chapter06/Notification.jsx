@@ -36,10 +36,9 @@ class Notification extends React.Component {
     console.log('==> componentDidCatch : ', `${this.props.id}`)
   }
 
-
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {}; // * state 초기화
   }
   render() {
     return (
