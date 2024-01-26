@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {Accommodate} from "./chapter07/Accommodate";
+import {ConfirmButtonFn} from "./chapter08/ConfirmButtonFn";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -10,7 +10,9 @@ root.render(
       {/*<CommentList />*/}
       {/*<NotificationList />*/}
       {/*  <Calculator />*/}
-      <Accommodate />
+      {/*<Accommodate />*/}
+      {/*<ConfirmButton />*/}
+      <ConfirmButtonFn />
     </React.StrictMode>
 );
 /*setInterval(() => {
