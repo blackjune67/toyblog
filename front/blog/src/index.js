@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {ConfirmButtonFn} from "./chapter08/ConfirmButtonFn";
+import {LandingPage} from "./chapter09/LandingPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,7 +12,8 @@ root.render(
       {/*  <Calculator />*/}
       {/*<Accommodate />*/}
       {/*<ConfirmButton />*/}
-      <ConfirmButtonFn />
+      {/*<ConfirmButtonFn />*/}
+      <LandingPage />
     </React.StrictMode>
 );
 /*setInterval(() => {
