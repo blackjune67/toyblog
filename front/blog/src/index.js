@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {Calculator} from "./chapter12/Calculator";
+import {ProfileCard} from "./chapter13/ProfileCard";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,8 +22,9 @@ root.render(
       {/*<NameForm />*/}
       {/*<Reservation />*/}
       {/*<Signup />*/}
-        <Calculator />
+      {/*<Calculator />*/}
       {/*</DevSupport>*/}
+        <ProfileCard/>
     </React.StrictMode>
 );
 /*setInterval(() => {
