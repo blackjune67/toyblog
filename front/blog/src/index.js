@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {Signup} from "./chapter11/Signup";
+import {DevSupport} from "@react-buddy/ide-toolbox";
+import {Calculator} from "./chapter12/Calculator";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
+      {/*<DevSupport
+          ComponentPreviews={<Calculator />}
+          // useInitialHook={useInitial}
+      >*/}
       {/*<CommentList />*/}
       {/*<NotificationList />*/}
       {/*  <Calculator />*/}
@@ -17,7 +22,9 @@ root.render(
       <LandingPage />*/}
       {/*<NameForm />*/}
       {/*<Reservation />*/}
-      <Signup />
+      {/*<Signup />*/}
+        <Calculator />
+      {/*</DevSupport>*/}
     </React.StrictMode>
 );
 /*setInterval(() => {
