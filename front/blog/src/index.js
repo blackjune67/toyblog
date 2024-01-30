@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {DevSupport} from "@react-buddy/ide-toolbox";
 import {Calculator} from "./chapter12/Calculator";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

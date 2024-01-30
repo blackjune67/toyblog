@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {BoilingVerdict} from "./BoilingVerdict";
 import {TemperatureInput} from "./TemperatureInput";
-import templateFactory from "bootstrap/js/src/util/template-factory";
 
 function toCelsius(fahrenheit) {
   return (fahrenheit - 32) * 5 / 9;
@@ -25,6 +24,7 @@ export function Calculator() {
   const [temperature, setTemperature] = useState('');
   const [scale, setScale] = useState('');
 
+  // * 값이 변환됐을 때 업데이트하기 위한 함수
   const handleCelsiusChange = (temperature) => {
     setTemperature(temperature);
     setScale('c');
@@ -44,8 +44,8 @@ export function Calculator() {
   return (
       <div>
         <TemperatureInput
-            scale={"c"}
-            temperature={celsius}
+            scale={"c"} /*단위값*/
+            temperature={celsius} /*온도값*/
             onTemperatureChange={handleCelsiusChange}
         />
         <TemperatureInput
@@ -62,7 +62,6 @@ export function Calculator() {
         <BoilingVerdict
             celsius={parseFloat(temperature)}
         />
-
       </div>
   );
 }
