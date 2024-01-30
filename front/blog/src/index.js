@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {NameForm} from "./chapter11/NameForm";
-import {Reservation} from "./chapter11/Reservation";
+import {Signup} from "./chapter11/Signup";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,7 +16,8 @@ root.render(
       {/*<AttendanceBook />
       <LandingPage />*/}
       {/*<NameForm />*/}
-      <Reservation />
+      {/*<Reservation />*/}
+      <Signup />
     </React.StrictMode>
 );
 /*setInterval(() => {
