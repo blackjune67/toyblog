@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {ProfileCard} from "./chapter13/ProfileCard";
+import {DarkOrLight} from "./practice/chapter14/DarkOrLight";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,7 +24,8 @@ root.render(
       {/*<Signup />*/}
       {/*<Calculator />*/}
       {/*</DevSupport>*/}
-        <ProfileCard/>
+      {/*<ProfileCard/>*/}
+      <DarkOrLight/>
     </React.StrictMode>
 );
 /*setInterval(() => {
