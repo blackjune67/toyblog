@@ -2,11 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {Signup} from "./chapter11/Signup";
+import {DarkOrLight} from "./practice/chapter14/DarkOrLight";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
+      {/*<DevSupport
+          ComponentPreviews={<Calculator />}
+          // useInitialHook={useInitial}
+      >*/}
       {/*<CommentList />*/}
       {/*<NotificationList />*/}
       {/*  <Calculator />*/}
@@ -17,7 +21,11 @@ root.render(
       <LandingPage />*/}
       {/*<NameForm />*/}
       {/*<Reservation />*/}
-      <Signup />
+      {/*<Signup />*/}
+      {/*<Calculator />*/}
+      {/*</DevSupport>*/}
+      {/*<ProfileCard/>*/}
+      <DarkOrLight/>
     </React.StrictMode>
 );
 /*setInterval(() => {
