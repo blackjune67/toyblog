@@ -1,5 +1,6 @@
 package toyblog.june.springbootdev.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -14,12 +15,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import toyblog.june.springbootdev.config.jwt.TokenProvider;
 import toyblog.june.springbootdev.config.oauth.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import toyblog.june.springbootdev.config.oauth.OAuth2SuccessHandler;
 import toyblog.june.springbootdev.config.oauth.OAuth2UserCustomService;
 import toyblog.june.springbootdev.repository.RefreshTokenRepository;
 import toyblog.june.springbootdev.service.UserService;
+
+import java.util.List;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -37,11 +42,42 @@ public class WebOAuthSecurityConfig {
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
                 .requestMatchers(toH2Console())
+                .requestMatchers("/resources/**")
                 .requestMatchers("/img/**", "/css/**", "/js/**");
     }
 
+   /* @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config= new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }*/
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors((corsCustomizer) -> {
+            corsCustomizer.configurationSource(new CorsConfigurationSource() {
+                @Override
+                public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                    CorsConfiguration config= new CorsConfiguration();
+                    config.setAllowCredentials(true);
+                    config.setAllowedOrigins(List.of("http://localhost:5173"));
+                    config.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
+                    config.setAllowedHeaders(List.of("*"));
+                    config.setExposedHeaders(List.of("*"));
+                    return config;
+                }
+            });
+        });
+
         http.csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -52,16 +88,16 @@ public class WebOAuthSecurityConfig {
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        http.oauth2Login(oauth2Login ->
+        /*http.oauth2Login(oauth2Login ->
                 oauth2Login.loginPage("/login")
                         .authorizationEndpoint(authorizationEndpoint ->
                                 authorizationEndpoint.authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository()))
                         .successHandler(oAuth2SuccessHandler())
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService)));
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService)));*/
 
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/api/token").permitAll()
-                .requestMatchers("/api/**").authenticated()
+//                .requestMatchers("/api/token").permitAll()
+//                .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll());
 
         http.oauth2Login(oauth2Login -> oauth2Login
