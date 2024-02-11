@@ -1,6 +1,7 @@
 package toyblog.june.springbootdev.controller.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class BlogApiController {
 
     private final BlogService blogService;
@@ -23,6 +25,7 @@ public class BlogApiController {
     // * 글 쓰기
     @PostMapping("/api/articles")
     public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest2 request, Principal principal) {
+        log.info("principal.getName={}", principal.getName());
 //        Article savedArticle = blogService.save(request);
         Article savedArticle = blogService.save2(request, principal.getName()); // * record 사용
 //        Article savedArticle = blogService.save(request, principal.getName()); // * class 사용

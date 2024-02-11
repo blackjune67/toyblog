@@ -6,11 +6,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyblog.june.springbootdev.domain.Article;
+import toyblog.june.springbootdev.domain.User;
 import toyblog.june.springbootdev.dto.AddArticleRequest;
 import toyblog.june.springbootdev.dto.UpdateArticleRequest2;
 import toyblog.june.springbootdev.dto.record.AddArticleRequest2;
 import toyblog.june.springbootdev.dto.record.UpdateArticleRequest;
 import toyblog.june.springbootdev.repository.BlogRepository;
+import toyblog.june.springbootdev.repository.UserRepository;
 
 import java.util.List;
 
@@ -19,9 +21,12 @@ import java.util.List;
 @Slf4j
 public class BlogService {
     private final BlogRepository blogRepository;
+    private final UserRepository userRepository;
 
     // * class 사용
     public Article save(AddArticleRequest request, String userName) {
+        User user = userRepository.findByEmail("").orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
+        log.info("글쓰기 user={}", user);
         return blogRepository.save(request.toEntity(userName));
     }
 

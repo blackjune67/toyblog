@@ -24,6 +24,7 @@ import toyblog.june.springbootdev.config.oauth.OAuth2UserCustomService;
 import toyblog.june.springbootdev.repository.RefreshTokenRepository;
 import toyblog.june.springbootdev.service.UserService;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
@@ -46,7 +47,7 @@ public class WebOAuthSecurityConfig {
                 .requestMatchers("/img/**", "/css/**", "/js/**");
     }
 
-   /* @Bean
+    /*@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config= new CorsConfiguration();
         config.setAllowCredentials(true);
@@ -61,8 +62,29 @@ public class WebOAuthSecurityConfig {
         return source;
     }*/
 
+
+    /*CorsConfigurationSource corsConfigurationSource() {
+        return request -> {
+            CorsConfiguration config = new CorsConfiguration();
+//            config.setAllowCredentials(true); // * 없으니 안되나? 1, 상관없음
+            *//*config.setAllowedHeaders(List.of("*"));
+            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+            config.setAllowedOrigins(List.of("http://localhost:5173"));*//*
+//            config.setExposedHeaders(List.of("*")); // * 없으니 안되나? 2
+
+            config.setAllowedHeaders(Collections.singletonList("*"));
+//            config.setAllowedMethods(Collections.singletonList("GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH")); // * 이런식으로 인자값을 여러개 넣으면 안됨
+            config.setAllowedMethods(Collections.singletonList("*"));
+            config.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
+//            config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:5173")); // ⭐️ 허용할 origin
+            return config;
+        };
+    }*/
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()));
         http.cors((corsCustomizer) -> {
             corsCustomizer.configurationSource(new CorsConfigurationSource() {
                 @Override
